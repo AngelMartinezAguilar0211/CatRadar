@@ -1,12 +1,58 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:padding="16dp">
 
-    <TextView
-        android:text="Reportar"
-        android:textSize="24sp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-</FrameLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageViewPreview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:background="#DDD"
+            android:contentDescription="Preview de imagen"/>
+
+        <Button
+            android:id="@+id/buttonTakePhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tomar Foto"/>
+
+        <Button
+            android:id="@+id/buttonPickGallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Elegir de Galería"/>
+
+        <EditText
+            android:id="@+id/editTextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descripción del reporte"
+            android:inputType="textMultiLine"
+            android:minLines="3"/>
+
+        <Button
+            android:id="@+id/buttonGetLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Obtener Ubicación Actual"/>
+
+        <TextView
+            android:id="@+id/textViewLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ubicación: (lat, long)"
+            android:paddingTop="8dp"/>
+
+        <Button
+            android:id="@+id/buttonSaveReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar Reporte"/>
+    </LinearLayout>
+</ScrollView>
