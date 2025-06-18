@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt") // For Room annotation processing
+    id("com.google.gms.google-services") version "4.4.2" apply false
 }
 
 android {
@@ -46,6 +47,11 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     implementation(libs.play.services.location)
     kapt("androidx.room:room-compiler:2.6.1")
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.4")
+    implementation("com.google.firebase:firebase-storage-ktx:21.0.2")
     // Viewmodel and LiveData
     implementation("androix.lifecycle:lifecycle-viewmodel-ktx:2.7.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.1")

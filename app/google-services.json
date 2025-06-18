@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "425362936395",
+    "project_id": "catradar-7f937",
+    "storage_bucket": "catradar-7f937.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425362936395:android:ff8714683e4e5ee227f3ce",
+        "android_client_info": {
+          "package_name": "com.catradar.proyectofinal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwqeFkKMWJX67QSth77Xtdvty2qFd14tM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

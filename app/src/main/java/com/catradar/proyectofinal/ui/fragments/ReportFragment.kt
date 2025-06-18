@@ -14,9 +14,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.catradar.proyectofinal.R
+import com.catradar.proyectofinal.model.Reporte
 import com.google.android.gms.location.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 class ReportFragment : Fragment() {
 
@@ -83,10 +86,41 @@ class ReportFragment : Fragment() {
     }
 
     private fun saveReport() {
-        val desc = view?.findViewById<EditText>(R.id.editTextDescription)?.text.toString()
-        Toast.makeText(requireContext(), "Guardado (simulado): $desc", Toast.LENGTH_SHORT).show()
-        // Aquí después se integrará con Firebase
+        val descripcion = view?.findViewById<EditText>(R.id.editTextDescription)?.text.toString()
+
+        if (imageUri == null || latitud == null || longitud == null || descripcion.isEmpty()) {
+            Toast.makeText(requireContext(), "Completa todos los campos", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val storageRef = FirebaseStorage.getInstance().reference
+        val fileRef = storageRef.child("reportes/${System.currentTimeMillis()}.jpg")
+
+        fileRef.putFile(imageUri!!)
+            .addOnSuccessListener {
+                fileRef.downloadUrl.addOnSuccessListener { uri ->
+                    val reporte = Reporte(
+                        descripcion = descripcion,
+                        fotoUrl = uri.toString(),
+                        latitud = latitud!!,
+                        longitud = longitud!!
+                    )
+                    FirebaseFirestore.getInstance()
+                        .collection("reportes")
+                        .add(reporte)
+                        .addOnSuccessListener {
+                            Toast.makeText(requireContext(), "Reporte guardado correctamente", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(requireContext(), "Error al guardar reporte", Toast.LENGTH_SHORT).show()
+                        }
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Error al subir la imagen", Toast.LENGTH_SHORT).show()
+            }
     }
+
 
     private fun saveImageToGallery(bitmap: Bitmap): Uri {
         val path = MediaStore.Images.Media.insertImage(requireActivity().contentResolver, bitmap, "ReporteGato", null)
