@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mapFragment">
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.catradar.proyectofinal.ui.fragments.MapFragment"
+        android:label="Mapa" />
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="com.catradar.proyectofinal.ui.fragments.ReportFragment"
+        android:label="Reportar" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.catradar.proyectofinal.ui.fragments.HistoryFragment"
+        android:label="Historial" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.catradar.proyectofinal.ui.fragments.ProfileFragment"
+        android:label="Perfil" />
+</navigation>

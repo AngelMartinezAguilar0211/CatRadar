@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt") // For Room annotation processing
 }
 
 android {
@@ -36,6 +37,17 @@ android {
 }
 
 dependencies {
+    // Navigation Component
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+    // Material Design Components
+    implementation("com.google.android.material:material:1.11.0")
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    // Viewmodel and LiveData
+    implementation("androix.lifecycle:lifecycle-viewmodel-ktx:2.7.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
