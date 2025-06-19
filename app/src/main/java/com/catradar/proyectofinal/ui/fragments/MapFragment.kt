@@ -1,5 +1,6 @@
 package com.catradar.proyectofinal.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.catradar.proyectofinal.R
 import com.catradar.proyectofinal.model.Reporte
+import com.catradar.proyectofinal.ui.activities.ReporteDetailActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -31,6 +33,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         googleMap = map
         googleMap.uiSettings.isZoomControlsEnabled = true
         loadReportesDesdeFirestore()
+        googleMap.setOnInfoWindowClickListener { marker ->
+            val reporte = marker.tag as? Reporte
+            reporte?.let {
+                val intent = Intent(requireContext(), ReporteDetailActivity::class.java).apply {
+                    putExtra("descripcion", it.descripcion)
+                    putExtra("fotoUrl", it.fotoUrl)
+                    putExtra("latitud", it.latitud)
+                    putExtra("longitud", it.longitud)
+                }
+                startActivity(intent)
+            }
+        }
+
     }
 
     private fun loadReportesDesdeFirestore() {
@@ -48,6 +63,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             .snippet(reporte.descripcion)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
                     )
+                    val marcador = googleMap.addMarker(
+                        MarkerOptions()
+                            .position(posicion)
+                            .title("Gato reportado")
+                            .snippet(reporte.descripcion)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
+                    )
+                    marcador?.tag = reporte
                 }
 
                 // Opcional: centrar el mapa si hay reportes
@@ -57,6 +80,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitud, it.longitud), 13f))
                     }
                 }
+
             }
+
     }
 }

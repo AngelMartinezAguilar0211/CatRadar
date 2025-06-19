@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt") // For Room annotation processing
+    id("kotlin-kapt")
     id("com.google.gms.google-services") version "4.4.2" apply false
 }
 
@@ -57,6 +57,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.1")
     // Maps
     implementation("com.google.android.gms:play-services-maps:19.2.0")
+    // Glide for image loading
+    implementation("com.github.bumptech.glide:glide:4.15.0")
+    kapt("com.github.bumptech.glide:compiler:4.15.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
