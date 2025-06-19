@@ -3,6 +3,7 @@ package com.catradar.proyectofinal.ui.fragments
 import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.location.Location
 import android.net.Uri
@@ -61,9 +62,15 @@ class ReportFragment : Fragment() {
     }
 
     private fun openCamera() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        cameraLauncher.launch(intent)
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_GRANTED) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            cameraLauncher.launch(intent)
+        } else {
+            requestPermissions(arrayOf(Manifest.permission.CAMERA), 1002)
+        }
     }
+
 
     private fun openGallery() {
         galleryLauncher.launch("image/*")
@@ -126,4 +133,15 @@ class ReportFragment : Fragment() {
         val path = MediaStore.Images.Media.insertImage(requireActivity().contentResolver, bitmap, "ReporteGato", null)
         return Uri.parse(path)
     }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1002 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openCamera()
+        } else {
+            Toast.makeText(requireContext(), "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 }

@@ -20,4 +20,9 @@
         android:id="@+id/profileFragment"
         android:name="com.catradar.proyectofinal.ui.fragments.ProfileFragment"
         android:label="Perfil" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.catradar.proyectofinal.ui.fragments.SettingsFragment"
+        android:label="Configuración"/>
+
 </navigation>

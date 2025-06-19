@@ -1,14 +1,20 @@
 package com.catradar.proyectofinal.ui.fragments
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresPermission
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.catradar.proyectofinal.R
 import com.catradar.proyectofinal.model.Reporte
 import com.catradar.proyectofinal.ui.activities.ReporteDetailActivity
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,6 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var googleMap: GoogleMap
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private val locationPermission = Manifest.permission.ACCESS_FINE_LOCATION
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_map, container, false)
@@ -27,10 +35,20 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
     }
 
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
+        if (ContextCompat.checkSelfPermission(requireContext(), locationPermission) ==
+            PackageManager.PERMISSION_GRANTED) {
+            googleMap.isMyLocationEnabled = true
+            centrarEnUbicacionActual()
+        } else {
+            requestPermissions(arrayOf(locationPermission), 1002)
+        }
+
         googleMap.uiSettings.isZoomControlsEnabled = true
         loadReportesDesdeFirestore()
         googleMap.setOnInfoWindowClickListener { marker ->
@@ -82,6 +100,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 }
 
             }
-
     }
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
+    private fun centrarEnUbicacionActual() {
+        fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
+            location?.let {
+                val posicion = LatLng(it.latitude, it.longitude)
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posicion, 15f))
+            }
+        }
+    }
+
 }

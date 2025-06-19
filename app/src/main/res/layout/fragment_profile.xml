@@ -15,7 +15,16 @@
             android:layout_height="120dp"
             android:src="@drawable/ic_profile"
             android:scaleType="centerCrop"
-            android:contentDescription="Foto de perfil"/>
+            android:contentDescription="Foto de perfil"
+            android:clickable="true"
+            android:focusable="true"/>
+        <Button
+            android:id="@+id/buttonEliminarFoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eliminar foto"
+            android:layout_marginTop="8dp"/>
+
 
         <TextView
             android:text="Nombre:"
@@ -26,6 +35,7 @@
             android:id="@+id/editTextNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:hint="Tu nombre"/>
 
         <TextView
@@ -49,12 +59,7 @@
             android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchDarkMode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Modo oscuro"
-            android:layout_marginTop="24dp"/>
+
 
     </LinearLayout>
 </ScrollView>
