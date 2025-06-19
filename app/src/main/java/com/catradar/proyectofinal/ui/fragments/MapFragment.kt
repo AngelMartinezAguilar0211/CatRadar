@@ -7,9 +7,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresPermission
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.catradar.proyectofinal.R
 import com.catradar.proyectofinal.model.Reporte
 import com.catradar.proyectofinal.ui.activities.ReporteDetailActivity
@@ -44,6 +47,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(requireContext(), locationPermission) ==
             PackageManager.PERMISSION_GRANTED) {
             googleMap.isMyLocationEnabled = true
+            googleMap.setInfoWindowAdapter(CustomInfoWindowAdapter())
             centrarEnUbicacionActual()
         } else {
             requestPermissions(arrayOf(locationPermission), 1002)
@@ -55,6 +59,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val reporte = marker.tag as? Reporte
             reporte?.let {
                 val intent = Intent(requireContext(), ReporteDetailActivity::class.java).apply {
+                    putExtra("titulo", it.titulo)
                     putExtra("descripcion", it.descripcion)
                     putExtra("fotoUrl", it.fotoUrl)
                     putExtra("latitud", it.latitud)
@@ -63,6 +68,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 startActivity(intent)
             }
         }
+
 
     }
 
@@ -77,7 +83,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     googleMap.addMarker(
                         MarkerOptions()
                             .position(posicion)
-                            .title("Gato reportado")
+                            .title(reporte.titulo)
                             .snippet(reporte.descripcion)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
                     )
@@ -110,5 +116,31 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
         }
     }
+    inner class CustomInfoWindowAdapter : GoogleMap.InfoWindowAdapter {
+
+        private val view = layoutInflater.inflate(R.layout.marker_info_window, null)
+
+        override fun getInfoWindow(marker: Marker): View? = null
+
+        override fun getInfoContents(marker: Marker): View {
+            val reporte = marker.tag as? Reporte
+            val titulo = view.findViewById<TextView>(R.id.textViewTituloInfo)
+            val imagen = view.findViewById<ImageView>(R.id.imageViewInfo)
+
+            titulo.text = reporte?.titulo ?: "Gato reportado"
+            if (reporte?.fotoUrl?.isNotBlank() == true) {
+                Glide.with(requireContext())
+                    .load(reporte.fotoUrl)
+                    .placeholder(R.drawable.ic_profile)
+                    .into(imagen)
+            } else {
+                imagen.setImageResource(R.drawable.ic_profile)
+            }
+
+            return view
+        }
+    }
+
 
 }
+

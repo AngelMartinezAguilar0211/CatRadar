@@ -29,6 +29,15 @@
             android:text="Elegir de Galería"/>
 
         <EditText
+            android:id="@+id/editTextTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Título del reporte"
+            android:inputType="textCapWords"
+            android:maxLines="2"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
             android:id="@+id/editTextDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,6 +50,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Obtener Ubicación Actual"/>
+        <Button
+            android:id="@+id/buttonElegirUbicacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Elegir ubicación en mapa" />
+
 
         <TextView
             android:id="@+id/textViewLocation"

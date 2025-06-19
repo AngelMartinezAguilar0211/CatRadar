@@ -53,6 +53,8 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore-ktx:25.1.4")
     implementation("com.google.firebase:firebase-storage-ktx:21.0.2")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
     // Viewmodel and LiveData
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.1")

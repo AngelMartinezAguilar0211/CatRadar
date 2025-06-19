@@ -23,6 +23,7 @@
         android:theme="@style/Theme.CatRadar"
         tools:targetApi="31">
         <activity android:name=".ui.activities.ReporteDetailActivity"/>
+        <activity android:name=".ui.activities.SeleccionarUbicacionActivity"/>
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="true">

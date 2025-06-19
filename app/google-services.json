@@ -12,7 +12,12 @@
           "package_name": "com.catradar.proyectofinal"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "425362936395-enel2a27hmaufc1s1mq77uat9h5mjhsm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAwqeFkKMWJX67QSth77Xtdvty2qFd14tM"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425362936395-enel2a27hmaufc1s1mq77uat9h5mjhsm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
