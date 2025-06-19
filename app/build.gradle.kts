@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
-    id("com.google.gms.google-services") version "4.4.2" apply false
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -46,6 +46,7 @@ dependencies {
     // Room
     implementation("androidx.room:room-runtime:2.6.1")
     implementation(libs.play.services.location)
+    implementation(libs.appcompat)
     kapt("androidx.room:room-compiler:2.6.1")
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
@@ -53,8 +54,8 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx:25.1.4")
     implementation("com.google.firebase:firebase-storage-ktx:21.0.2")
     // Viewmodel and LiveData
-    implementation("androix.lifecycle:lifecycle-viewmodel-ktx:2.7.1")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.1")
     // Maps
     implementation("com.google.android.gms:play-services-maps:19.2.0")
     // Glide for image loading

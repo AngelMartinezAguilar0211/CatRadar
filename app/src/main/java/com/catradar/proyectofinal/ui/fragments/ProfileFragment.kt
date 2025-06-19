@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import com.catradar.proyectofinal.R
 import com.google.firebase.firestore.FirebaseFirestore
@@ -30,6 +31,14 @@ class ProfileFragment : Fragment() {
         val prefs = requireActivity().getSharedPreferences("perfil", Context.MODE_PRIVATE)
         val nombre = prefs.getString("nombre", "")
         val fechaRegistro = prefs.getLong("fecha", System.currentTimeMillis())
+        val switchDarkMode = view.findViewById<SwitchCompat>(R.id.switchDarkMode)
+        val isDarkMode = prefs.getBoolean("modo_oscuro", false)
+        switchDarkMode.isChecked = isDarkMode
+
+        switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("modo_oscuro", isChecked).apply()
+            requireActivity().recreate()
+        }
 
         editTextNombre.setText(nombre)
         textViewFecha.text = "Fecha de registro: ${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(fechaRegistro))}"
