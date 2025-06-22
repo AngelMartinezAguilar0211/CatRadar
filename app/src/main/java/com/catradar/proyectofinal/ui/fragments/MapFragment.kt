@@ -72,6 +72,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
 
         googleMap.uiSettings.isZoomControlsEnabled = true
+        googleMap.clear()
+
         loadReportesDesdeFirestore()
         googleMap.setOnInfoWindowClickListener { marker ->
             val reporte = marker.tag as? Reporte

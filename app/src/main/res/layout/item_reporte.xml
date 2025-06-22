@@ -36,6 +36,15 @@
             android:paddingTop="4dp" />
 
         <TextView
+            android:id="@+id/textViewEstado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textStyle="italic"
+            android:paddingTop="4dp" />
+
+        <TextView
             android:id="@+id/textViewFecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

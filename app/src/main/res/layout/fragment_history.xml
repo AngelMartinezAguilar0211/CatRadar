@@ -8,4 +8,14 @@
         android:id="@+id/recyclerViewHistorial"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/textViewSinReportes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No hay reportes activos"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="16dp" />
+
 </LinearLayout>

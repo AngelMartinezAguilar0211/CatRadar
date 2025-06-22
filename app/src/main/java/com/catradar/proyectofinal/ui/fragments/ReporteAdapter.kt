@@ -24,11 +24,11 @@ class ReporteAdapter(
     }
 
     override fun onBindViewHolder(holder: ReporteViewHolder, position: Int) {
-        holder.bind(reportes[position])
-        holder.itemView.findViewById<ImageButton>(R.id.buttonEliminar).setOnClickListener {
-            onDelete(reportes[position])
+        val reporte = reportes[position]
+        holder.bind(reporte)
+        holder.eliminarButton.setOnClickListener {
+            onDelete(reporte)
         }
-
     }
 
     override fun getItemCount(): Int = reportes.size
@@ -38,15 +38,24 @@ class ReporteAdapter(
         private val descripcion: TextView = itemView.findViewById(R.id.textViewDescripcion)
         private val fecha: TextView = itemView.findViewById(R.id.textViewFecha)
         private val titulo: TextView = itemView.findViewById(R.id.textViewTitulo)
-
+        private val estado: TextView = itemView.findViewById(R.id.textViewEstado)
+        val eliminarButton: ImageButton = itemView.findViewById(R.id.buttonEliminar)
 
         fun bind(reporte: Reporte) {
-            descripcion.text = reporte.descripcion
             titulo.text = reporte.titulo
-            val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-            fecha.text = "Fecha: ${sdf.format(reporte.fecha?.toDate() ?: Date())}"
+            descripcion.text = reporte.descripcion
+            estado.text = "Estado: ${reporte.estado}"
 
-            Glide.with(itemView).load(reporte.fotoUrl).into(foto)
+            // Formato de fecha
+            val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+            val fechaTexto = reporte.fecha?.toDate()?.let { sdf.format(it) } ?: "Fecha desconocida"
+            fecha.text = "Fecha: $fechaTexto"
+
+            // Cargar imagen con Glide
+            Glide.with(itemView)
+                .load(reporte.fotoUrl)
+                .placeholder(R.drawable.ic_profile)
+                .into(foto)
         }
     }
 }
