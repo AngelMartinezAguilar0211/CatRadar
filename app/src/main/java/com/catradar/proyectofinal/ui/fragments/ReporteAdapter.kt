@@ -44,7 +44,8 @@ class ReporteAdapter(
             descripcion.text = reporte.descripcion
             titulo.text = reporte.titulo
             val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-            fecha.text = "Fecha: ${sdf.format(Date(reporte.fecha))}"
+            fecha.text = "Fecha: ${sdf.format(reporte.fecha?.toDate() ?: Date())}"
+
             Glide.with(itemView).load(reporte.fotoUrl).into(foto)
         }
     }

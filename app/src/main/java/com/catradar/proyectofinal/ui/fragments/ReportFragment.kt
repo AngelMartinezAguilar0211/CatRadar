@@ -23,6 +23,7 @@ import com.google.android.gms.location.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
@@ -53,7 +54,7 @@ class ReportFragment : Fragment() {
     private val launcherUbicacion = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
-        if (it.resultCode == Activity.RESULT_OK) {
+        if (it.resultCode == RESULT_OK) {
             val data = it.data
             latitud = data?.getDoubleExtra("latitud", 0.0)
             longitud = data?.getDoubleExtra("longitud", 0.0)
@@ -100,7 +101,7 @@ class ReportFragment : Fragment() {
 
     private fun getLocation() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-            == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            == PackageManager.PERMISSION_GRANTED) {
 
             fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
                 location?.let {
@@ -123,21 +124,26 @@ class ReportFragment : Fragment() {
             return
         }
 
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
         val storageRef = FirebaseStorage.getInstance().reference
         val fileRef = storageRef.child("reportes/${System.currentTimeMillis()}.jpg")
 
         fileRef.putFile(imageUri!!)
             .addOnSuccessListener {
                 fileRef.downloadUrl.addOnSuccessListener { uri ->
-                    val reporte = Reporte(
-                        titulo = titulo,
-                        descripcion = descripcion,
-                        fotoUrl = uri.toString(),
-                        latitud = latitud!!,
-                        longitud = longitud!!
+                    val reporte = hashMapOf(
+                        "titulo" to titulo,
+                        "descripcion" to descripcion,
+                        "fotoUrl" to uri.toString(),
+                        "latitud" to latitud,
+                        "longitud" to longitud,
+                        "estado" to "perdido", // valor por defecto
+                        "fecha" to com.google.firebase.Timestamp.now(),
+                        "uid" to userId
                     )
 
-                    FirebaseFirestore.getInstance()
+                    FirebaseFirestore.getInstance("catradar")
                         .collection("reportes")
                         .add(reporte)
                         .addOnSuccessListener {
@@ -152,8 +158,6 @@ class ReportFragment : Fragment() {
                                 imageUri = null
                                 latitud = null
                                 longitud = null
-
-                                Log.d("Reporte", "Guardado en Firestore con éxito y campos limpiados")
                             }
                         }
                         .addOnFailureListener {
@@ -170,6 +174,7 @@ class ReportFragment : Fragment() {
                 Log.e("Reporte", "Error subiendo imagen: ${it.message}")
             }
     }
+
 
 
 

@@ -36,7 +36,7 @@ class HistoryFragment : Fragment() {
             .addOnSuccessListener { result ->
                 listaReportes.clear()
                 for (document in result) {
-                    val reporte = document.toObject(Reporte::class.java).copy(id = document.id)
+                    val reporte = document.toObject(Reporte::class.java).copy(uid = document.id)
                     listaReportes.add(reporte)
                 }
 
