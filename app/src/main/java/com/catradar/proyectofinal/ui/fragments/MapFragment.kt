@@ -29,7 +29,9 @@ import android.os.Looper
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -76,14 +78,21 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         loadReportesDesdeFirestore()
         googleMap.setOnInfoWindowClickListener { marker ->
-            val reporte = marker.tag as? Reporte
-            reporte?.let {
+            val rep = marker.tag as? Reporte ?: return@setOnInfoWindowClickListener
+
+            rep?.let {
                 val intent = Intent(requireContext(), ReporteDetailActivity::class.java).apply {
-                    putExtra("titulo", it.titulo)
-                    putExtra("descripcion", it.descripcion)
-                    putExtra("fotoUrl", it.fotoUrl)
-                    putExtra("latitud", it.latitud)
-                    putExtra("longitud", it.longitud)
+
+                    putExtra("uid", rep.uid)
+                    putExtra("titulo", rep.titulo)
+                    putExtra("descripcion", rep.descripcion)
+                    putExtra("fotoUrl", rep.fotoUrl)
+                    putExtra("latitud", rep.latitud)
+                    putExtra("longitud", rep.longitud)
+                    putExtra("fecha", SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(
+                        rep.fecha?.toDate() ?: Date(0L)
+                    ))
+                    putExtra("reporteId", rep.id)
                 }
                 startActivity(intent)
             }
@@ -93,11 +102,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun loadReportesDesdeFirestore() {
-        FirebaseFirestore.getInstance("catradar").collection("reportes")
+        FirebaseFirestore.getInstance("catradar")
+            .collection("reportes")
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    val reporte = document.toObject(Reporte::class.java)
+                    val reporte = document
+                        .toObject(Reporte::class.java)
+                        .copy(id = document.id)
+
                     val posicion = LatLng(reporte.latitud, reporte.longitud)
 
                     val marcador = googleMap.addMarker(
@@ -105,7 +118,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             .position(posicion)
                             .title(reporte.titulo)
                             .snippet(reporte.descripcion)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
+                            .icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
                     )
                     marcador?.tag = reporte
 

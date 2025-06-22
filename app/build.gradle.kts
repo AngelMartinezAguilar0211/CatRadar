@@ -38,6 +38,9 @@ android {
 }
 
 dependencies {
+    // okhttp for network requests
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
     // Compose UI
     implementation("androidx.compose.ui:ui:1.8.3")
     implementation("androidx.activity:activity-compose:1.10.1")
@@ -52,6 +55,7 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     implementation(libs.play.services.location)
     implementation(libs.appcompat)
+    implementation(libs.firebase.messaging.ktx)
     kapt("androidx.room:room-compiler:2.6.1")
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.15.0"))

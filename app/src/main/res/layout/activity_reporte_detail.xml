@@ -7,33 +7,71 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <!-- Título -->
         <TextView
             android:id="@+id/textViewTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:paddingTop="16dp"/>
+            android:paddingTop="8dp"/>
+
+        <!-- Estado -->
+        <TextView
+            android:id="@+id/textViewEstado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textColor="@android:color/holo_blue_dark"
+            android:paddingTop="4dp"/>
+
+        <!-- Foto -->
         <ImageView
             android:id="@+id/imageViewDetalle"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="220dp"
             android:scaleType="centerCrop"
-            android:contentDescription="Foto del reporte"/>
+            android:contentDescription="Foto del reporte"
+            android:layout_marginTop="8dp"/>
 
+        <!-- Descripción -->
         <TextView
             android:id="@+id/textViewDescripcion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingTop="16dp"/>
+            android:textSize="16sp"
+            android:paddingTop="12dp"/>
 
+        <!-- Ubicación -->
         <TextView
             android:id="@+id/textViewUbicacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"/>
+
+        <!-- Fecha -->
+        <TextView
+            android:id="@+id/textViewFecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"/>
+
+        <!-- Botones -->
+        <Button
+            android:id="@+id/buttonMarcarEncontrado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Marcar como ENCONTRADO"
+            android:layout_marginTop="16dp"/>
+
+        <Button
+            android:id="@+id/buttonEnviarCorreo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contactar al reportante"
+            android:layout_marginTop="8dp"/>
+
         <Button
             android:id="@+id/buttonRegresar"
             android:layout_width="match_parent"

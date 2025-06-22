@@ -15,6 +15,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
 import androidx.core.content.edit
+import com.google.firebase.messaging.FirebaseMessaging
+
 
 object AuthManager {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -36,17 +38,21 @@ object AuthManager {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val uid = auth.currentUser?.uid
-                    val user = hashMapOf(
-                        "email" to email,
-                        "fotoUrl" to "",
-                        "nombre" to nombre,
-                        "preferenciasTema" to "sistema"
-                    )
+
                     uid?.let {
-                        db.collection("usuarios").document(it)
-                            .set(user)
-                            .addOnSuccessListener { onComplete(true) }
-                            .addOnFailureListener { onComplete(false) }
+                        FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                            val user = hashMapOf(
+                                "email" to email,
+                                "fotoUrl" to "",
+                                "nombre" to nombre,
+                                "preferenciasTema" to "sistema",
+                                "fcmToken" to token
+                            )
+                            db.collection("usuarios").document(it)
+                                .set(user)
+                                .addOnSuccessListener { onComplete(true) }
+                                .addOnFailureListener { onComplete(false) }
+                        }
                     } ?: onComplete(false)
                 } else {
                     onComplete(false)
@@ -65,13 +71,16 @@ object AuthManager {
                         val docRef = db.collection("usuarios").document(it.uid)
                         docRef.get().addOnSuccessListener { doc ->
                             if (!doc.exists()) {
-                                val nuevoUsuario = mapOf(
-                                    "nombre" to it.displayName,
-                                    "email" to it.email,
-                                    "fotoUrl" to (it.photoUrl?.toString() ?: ""),
-                                    "preferenciasTema" to "sistema"
-                                )
-                                docRef.set(nuevoUsuario)
+                                FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                                    val nuevoUsuario = mapOf(
+                                        "nombre" to it.displayName,
+                                        "email" to it.email,
+                                        "fotoUrl" to (it.photoUrl?.toString() ?: ""),
+                                        "preferenciasTema" to "sistema",
+                                        "fcmToken" to token
+                                    )
+                                    docRef.set(nuevoUsuario)
+                                }
                             }
                         }
                     }
