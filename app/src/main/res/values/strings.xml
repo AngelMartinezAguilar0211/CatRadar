@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CatRadar</string>
+    <string name="default_web_client_id">project-425362936395</string>
+
 </resources>
