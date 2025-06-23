@@ -8,6 +8,7 @@ import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import com.catradar.proyectofinal.R
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.edit
 
 class SettingsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -36,7 +37,7 @@ class SettingsFragment : Fragment() {
                 else -> "sistema"
             }
 
-            prefs.edit().putString("modo_tema", nuevoModo).apply()
+            prefs.edit { putString("modo_tema", nuevoModo) }
 
             AppCompatDelegate.setDefaultNightMode(
                 when (nuevoModo) {

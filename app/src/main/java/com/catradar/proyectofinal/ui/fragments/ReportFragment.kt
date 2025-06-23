@@ -1,7 +1,6 @@
 package com.catradar.proyectofinal.ui.fragments
 
 import android.Manifest
-import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -17,15 +16,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.catradar.proyectofinal.R
-import com.catradar.proyectofinal.model.Reporte
 import com.catradar.proyectofinal.ui.activities.SeleccionarUbicacionActivity
-import com.google.android.gms.location.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import androidx.core.net.toUri
 
 class ReportFragment : Fragment() {
 
@@ -180,7 +177,7 @@ class ReportFragment : Fragment() {
 
     private fun saveImageToGallery(bitmap: Bitmap): Uri {
         val path = MediaStore.Images.Media.insertImage(requireActivity().contentResolver, bitmap, "ReporteGato", null)
-        return Uri.parse(path)
+        return path.toUri()
     }
 
     @Deprecated("Deprecated in Java")

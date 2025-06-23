@@ -1,7 +1,6 @@
 package com.catradar.proyectofinal.ui.activities
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -12,26 +11,16 @@ import com.bumptech.glide.Glide
 import com.catradar.proyectofinal.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.messaging.FirebaseMessaging
-import java.text.SimpleDateFormat
-import java.util.*
 import androidx.core.net.toUri
 import java.io.IOException
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.MediaType
-import okhttp3.Call
-import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.Response
 
 
 class ReporteDetailActivity : AppCompatActivity() {
 
     private lateinit var db: FirebaseFirestore
-    private lateinit var reporteId: String          // ID del documento
-    private lateinit var dueñoUid: String           // UID del autor
+    private lateinit var reporteId: String
+    private lateinit var dueñoUid: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
